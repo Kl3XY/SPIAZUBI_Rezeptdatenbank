@@ -94,26 +94,22 @@ as
 	else
 		select * from unit where @id = unit_id;
 go
-
 create procedure add_units @name varchar(20)
 as
 	insert into unit(unit_name) values
 	(@name);
 go
-
 create procedure edit_units @oldname varchar(20), @newname varchar(20)
 as
 	update unit
 	set unit_name = @newname
 	where unit_name = @oldname
 go
-
 create procedure delete_units @name varchar(20)
 as
 	delete from unit where unit_name = @name
 go
 
---
 
 
 create procedure show_ingredient @id int = -1
@@ -123,30 +119,26 @@ as
 	else
 		select * from ingredient where @id = Ingredient_ID;
 go
-
 create procedure add_ingredient @name varchar(20)
 as
 	insert into ingredient(ingredient_name) values
 	(@name);
 go
-
 create procedure edit_ingredient @oldname varchar(20), @newname varchar(20)
 as
 	update ingredient
 	set ingredient_name = @newname
 	where ingredient_name = @oldname
 go
-
 create procedure delete_ingredient @name varchar(20)
 as
 	delete from ingredient where ingredient_name = @name
 go
 
---
 
-create procedure show_dish @id int
+
+create procedure show_recipe @id int
 as
-	select * from dish where @id = Dish_ID;
 	select displayDish.dish_name, displayIngredient.ingredient_name, CAST(ingredient_amount as varchar) + displayUnit.unit_name
 	from recipe
 		inner join ingredient as displayIngredient on recipe.Ingredient_ID = displayIngredient.Ingredient_ID
@@ -154,26 +146,73 @@ as
 		inner join dish as displayDish on recipe.Dish_ID = displayDish.Dish_ID
 	where @id = recipe.Dish_ID
 
-	select step_number as 'Schritt', step_description from step where @id = Dish_ID;
+go
+create procedure add_ingredient_to_recipe @Dish_ID int, @Ingredient_ID int, @amount int, @unitID int
+as
+	IF EXISTS(select Ingredient_ID from recipe where Dish_ID = @Dish_ID and @Ingredient_ID = Ingredient_ID)
+		begin
+			update recipe
+			set ingredient_amount = ingredient_amount + @amount
+			where Dish_ID = @Dish_ID and @Ingredient_ID = Ingredient_ID
+		end
+	else
+		begin
+			print 'bingo'
+			insert recipe values
+			(@Dish_ID, @Ingredient_ID, @amount, @unitID);
+		end
+go
+create procedure search_recipe @search_term varchar(50)
+as
+	declare @fixedVar varchar(50)
+	SELECT @fixedVar = REPLACE(@search_term, ';', '%')
+	select * from dish 
+	where dish_name LIKE '%' + @fixedVar + '%' or dish_description LIKE '%'+ @fixedVar +'%'
 go
 
+
+
+create procedure show_dish @id int = -1
+as
+	IF @id = -1
+		select * from dish;
+	else
+		select * from dish where @id = Dish_ID;
+go
+create procedure show_dish_ingredients @id int
+as
+	select displayIngredient.ingredient_name, CAST(ingredient_amount as varchar) + displayUnit.unit_name
+	from recipe
+		inner join ingredient as displayIngredient on recipe.Ingredient_ID = displayIngredient.Ingredient_ID
+		inner join unit as displayUnit on recipe.Unit_ID = displayUnit.Unit_ID
+		inner join dish as displayDish on recipe.Dish_ID = displayDish.Dish_ID
+	where @id = recipe.Dish_ID
+
+go
+create procedure show_entire_dish_info @id int
+as
+	declare @thisID int = @id;
+	select * from dish where @id = Dish_ID;
+	exec show_dish_ingredients @id = @thisID;
+	select step_number as 'Schritt', step_description from step where @id = Dish_ID;
+go
 create procedure add_dish @name varchar(30), @description varchar(8000)
 as
 	insert into dish(dish_name, dish_description) values
 	(@name, @description);
 go
-
 create procedure edit_dish @id int, @name varchar(30), @description varchar(8000)
 as
 	update dish
 	set dish_name = @name, dish_description = @description
 	where Dish_ID = @id
 go
-
 create procedure delete_dish @id int
 as
 	delete from dish where Dish_ID = @id
 go
+
+
 
 create procedure add_step @dish_id int, @description varchar(8000)
 as
@@ -191,45 +230,35 @@ as
 			(@Dish_ID, 1, @description);
 		end
 go
-
+create procedure show_step @Dish_ID int
+as
+	select step_number as 'Step', step_description from step where @Dish_ID = Dish_ID;
+go
+create procedure edit_step @Dish_ID int, @stepNumber int, @description varchar(8000)
+as
+	update step
+	set step_description = @description
+	where @Dish_ID = Dish_ID and @stepNumber = step_number;
+go
 create procedure clear_step @Dish_ID int
 as
 	delete from step where Dish_ID = @Dish_ID;
 go
-
-create procedure add_ingredient_to_recipe @Dish_ID int, @Ingredient_ID int, @amount int, @unitID int
+create procedure delete_step @Dish_ID int, @Stepnmb int
 as
-	IF EXISTS(select Ingredient_ID from recipe where Dish_ID = @Dish_ID and @Ingredient_ID = Ingredient_ID)
-		begin
-			update recipe
-			set ingredient_amount = ingredient_amount + @amount
-			where Dish_ID = @Dish_ID and @Ingredient_ID = Ingredient_ID
-		end
-	else
-		begin
-			print 'bingo'
-			insert recipe values
-			(@Dish_ID, @Ingredient_ID, @amount, @unitID);
-		end
-go
+	 
+	delete from step where Dish_ID = @Dish_ID and @Stepnmb = step_number;
 
-create procedure clear_ingredientList @Dish_ID int
+	update step set step_number -= 1 where step_number > @Stepnmb and @Dish_ID = Dish_ID;
+GO
+
+create procedure clear_dish_ingredients @Dish_ID int
 as
 	delete from recipe where Dish_ID = @Dish_ID;
 go
 
-create procedure search_recipe @search_term varchar(50)
-as
-	declare @fixedVar varchar(50)
-	SELECT @fixedVar = REPLACE(@search_term, ';', '%')
-	select * from dish 
-	where dish_name LIKE '%' + @fixedVar + '%' or dish_description LIKE '%'+ @fixedVar +'%'
-go
-
-
 GO
 --_______________________________________________________________________________________________________________________________________________________________________________________________________________
---EXEC's
+--Prepare
 --____________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
-exec search_recipe @search_term = 'scharf'
