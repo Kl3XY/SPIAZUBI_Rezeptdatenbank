@@ -119,22 +119,28 @@ as
 	else
 		select * from ingredient where @id = Ingredient_ID;
 go
-create procedure add_ingredient @name varchar(20)
+create procedure add_ingredient @name varchar(6420)
 as
 	insert into ingredient(ingredient_name) values
 	(@name);
 go
-create procedure edit_ingredient @oldname varchar(20), @newname varchar(20)
+create procedure edit_ingredient @id int, @newname varchar(64)
 as
-	update ingredient
-	set ingredient_name = @newname
-	where ingredient_name = @oldname
+	if (select ingredient_name from ingredient where ingredient_name = @newname) IS NULL 
+	BEGIN
+		update ingredient
+		set ingredient_name = @newname
+		where Ingredient_ID = @id
+	END
 go
-create procedure delete_ingredient @name varchar(20)
+create procedure search_ingredient @name int
 as
-	delete from ingredient where ingredient_name = @name
+	select * from ingredient where Ingredient_ID = @name
 go
-
+create procedure delete_ingredient @id int
+as
+	delete from ingredient where Ingredient_ID = @id;
+go
 
 
 create procedure show_recipe @id int
@@ -147,7 +153,7 @@ as
 	where @id = recipe.Dish_ID
 
 go
-create procedure add_ingredient_to_recipe @Dish_ID int, @Ingredient_ID int, @amount int, @unitID int
+create procedure add_ingredient_to_recipe @Dish_ID int, @Ingredient_ID varchar(64), @amount int, @unitID int
 as
 	IF EXISTS(select Ingredient_ID from recipe where Dish_ID = @Dish_ID and @Ingredient_ID = Ingredient_ID)
 		begin
@@ -181,7 +187,7 @@ as
 go
 create procedure show_dish_ingredients @id int
 as
-	select displayIngredient.ingredient_name, CAST(ingredient_amount as varchar) + displayUnit.unit_name
+	select displayIngredient.Ingredient_ID, displayIngredient.ingredient_name, CAST(ingredient_amount as varchar) + displayUnit.unit_name
 	from recipe
 		inner join ingredient as displayIngredient on recipe.Ingredient_ID = displayIngredient.Ingredient_ID
 		inner join unit as displayUnit on recipe.Unit_ID = displayUnit.Unit_ID
@@ -256,9 +262,30 @@ create procedure clear_dish_ingredients @Dish_ID int
 as
 	delete from recipe where Dish_ID = @Dish_ID;
 go
+create procedure delete_dish_ingredient @Dish_ID int, @Ingredient_ID int
+as
+	delete from recipe where Dish_ID = @Dish_ID and Ingredient_ID = @Dish_ID;
+go
+create procedure edit_dish_ingredients @ownDish_ID int, @ownIngredient_ID int, @newIngID int, @newMeasurement int, @newUnit int
+as
+	IF (select Ingredient_ID from recipe where Ingredient_ID = @newIngID and Dish_ID = @ownDish_ID) IS NULL
+		begin
+			update recipe
+			set
+			Ingredient_ID = @newIngID,
+			ingredient_amount = @newMeasurement,
+			Unit_ID = @newUnit
+			where Dish_ID = @ownDish_ID and Ingredient_ID = @ownIngredient_ID;
+		end
+	else
+		begin
+			exec add_ingredient_to_recipe @Dish_ID = @ownDish_ID, @Ingredient_ID = @newIngID, @amount = @newMeasurement, @unitID = @newUnit;
+		end
+go
 
 GO
 --_______________________________________________________________________________________________________________________________________________________________________________________________________________
 --Prepare
 --____________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
+select * from recipe
