@@ -30,3 +30,11 @@ With the execution of the script, the database is complete and filled with place
 Inside the Program is the Codebase for the Database Program. You are free to change it and re-release it non-commercially.
 
 Now open the solution via Visual Studio and press F5. If everything is correctly done, the Program should connect and you should be able to use it.
+
+## Apprenticeship related stuff
+![grafik](https://github.com/Kl3XY/SPIAZUBI_Rezeptdatenbank/assets/147717328/689150bd-bfc6-47ab-9aab-c9b621ec873c)
+The difference in speed from Index Seek vs Index Scan, Index Seek is approx. 70% faster. (Tested on a database with 2 million entries)
+
+INDECES SET:
+Dish -> Dish_name, Dish_Description. For searching dishes.
+Ingredients -> ID. Name. For searching Ingredients.
