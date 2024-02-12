@@ -215,6 +215,8 @@ as
 go
 create procedure delete_dish @id int
 as
+	exec clear_dish_ingredients @Dish_ID = @id;
+
 	delete from dish where Dish_ID = @id
 go
 
@@ -288,4 +290,12 @@ GO
 --Prepare
 --____________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
-select * from recipe
+insert into ingredient(ingredient_name) select ingredient_name from ingredient;
+insert into ingredient(ingredient_name) select ingredient_name from ingredient;
+insert into ingredient(ingredient_name) select ingredient_name from ingredient;
+insert into ingredient(ingredient_name) select ingredient_name from ingredient;
+insert into ingredient(ingredient_name) select ingredient_name from ingredient;
+insert into ingredient(ingredient_name) select ingredient_name from ingredient;
+insert into ingredient(ingredient_name) select ingredient_name from ingredient;
+insert into ingredient(ingredient_name) select ingredient_name from ingredient;
+insert into ingredient(ingredient_name) select ingredient_name from ingredient;
