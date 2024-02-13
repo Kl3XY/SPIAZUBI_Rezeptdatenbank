@@ -14,6 +14,7 @@ internal class Program
     public static bool isClosingConnection = false;
     public static bool fallback = false;
     public static string input = "";
+    public static int version = -1;
     private static void Main(string[] args)
     {
         Console.WriteLine("SQL DATABASE");

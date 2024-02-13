@@ -14,46 +14,49 @@ namespace Datenbank
         public static void recipeInit(SqlConnection sqlConnection)
         {
             Console.Clear();
-            string[] commands = new string[]
-            {
-                "Find (SYNTAX = Name)",
-                "Add (SYNTAX = Dish Name;Description)",
-                "Delete (SYNTAX = id)",
-                "Select (SYNTAX = id)"
-            };
-            var flipper = 3;
-
             prepared_statement.prepareStatements(sqlConnection);
             
 
             while (true)
             {
-                flipper++;
-                if (flipper > commands.Length-1)
-                {
-                    flipper = 0;
-                }
-
+                Console.WriteLine("All Dishes");
                 query.queryDraw("exec show_dish", sqlConnection);
+                
+                Console.WriteLine();
+                Console.WriteLine("All Ingredients");
+                query.queryDraw("exec show_ingredient", sqlConnection);
+
                 var dishID = menu.drawDishSelectionMenu();
 
-                Console.Clear();
-
-                var infoDisplayAll = prepared_statement.getStatement("displayAllInfo");
-                infoDisplayAll.Parameters[0].Value = dishID;
-
-                query.queryDraw("", sqlConnection, infoDisplayAll);
-                var selectedTable = menu.drawPostSelectionMenu();
-                switch (selectedTable)
+                switch (dishID[0])
                 {
-                    case tableEdit.step:
-                        menu.drawStepEditing(dishID, sqlConnection);
+                    case 'e':
+                        Console.Clear();
+                        generalIngredientTable.edit(0, sqlConnection);
                         break;
-                    case tableEdit.ingredient:
+                    case 'd':
+                        dishTable.edit(sqlConnection);
                         break;
-                    case tableEdit.recipe:
-                        break;
-                    case tableEdit.errorTable:
+                    default:
+                        Console.Clear();
+                        var infoDisplayAll = prepared_statement.getStatement("displayAllInfo");
+                        infoDisplayAll.Parameters[0].Value = dishID;
+
+                        query.queryDraw("", sqlConnection, infoDisplayAll);
+                        var selectedTable = menu.drawPostSelectionMenu();
+                        switch (selectedTable)
+                        {
+                            case tableEdit.step:
+                                menu.drawStepEditing(Convert.ToInt32(dishID), sqlConnection);
+                                break;
+                            case tableEdit.ingredient:
+                                menu.drawIngredientEditing(Convert.ToInt32(dishID), sqlConnection);
+                                break;
+                            case tableEdit.recipe:
+                                break;
+                            case tableEdit.errorTable:
+                                break;
+                        }
                         break;
                 }
             }

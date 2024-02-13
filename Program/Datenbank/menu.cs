@@ -18,43 +18,14 @@ namespace Datenbank
         errorTable
     }
 
-    public static class Validator
-    {
-        public static bool Validate(object Input)
-        {
-            var errMsg = new List<ValidationResult>();
-            var ctxt = new ValidationContext(Input);
-            var rv = System.ComponentModel.DataAnnotations.Validator.TryValidateObject(Input, ctxt, errMsg, true);
-            if (rv == false)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("The input you've given is invalid.\nPlease correct the following things:");
-                errMsg.ForEach(n => Console.WriteLine($"-{n}"));
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.ReadKey();
-                return false;
-            }
-            return true;
-        }
-    }
-
-    class commandSelection
-    {
-        [Required(ErrorMessage = "Missing Command")]
-        public string givenCommand { get; set; }
-
-        public commandSelection(string commandName)
-        {
-            this.givenCommand = commandName;
-        }
-    }
-
     internal static class menu
     {
-        public static int drawDishSelectionMenu()
+        public static string drawDishSelectionMenu()
         {
             Console.WriteLine("Select a dish by its ID!");
-            return Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("or just type e to edit ingredients");
+            Console.WriteLine("or just type d to edit the dishes");
+            return Console.ReadLine();
 
         }
 
@@ -77,7 +48,6 @@ namespace Datenbank
                     return tableEdit.errorTable;
                     break;
             }
-
         }
 
         public static void drawStepEditing(int dishID, SqlConnection sqlConnection)
@@ -94,19 +64,19 @@ namespace Datenbank
             {
                 case "e":
                 case "edit":
-                    instance.editStep(dishID, sqlConnection);
+                    instance.edit(dishID, sqlConnection);
                     break;
                 case "r":
                 case "remove":
-                    instance.removeStep(dishID, sqlConnection);
+                    instance.remove(dishID, sqlConnection);
                     break;
                 case "c":
                 case "clear":
-                    instance.clearStep(dishID, sqlConnection);
+                    instance.clear(dishID, sqlConnection);
                     break;
                 case "a":
                 case "add":
-                    instance.addStep(dishID, sqlConnection);
+                    instance.add(dishID, sqlConnection);
                     break;
                 default:
                     Console.WriteLine("Unrecognized Command.");
@@ -122,25 +92,27 @@ namespace Datenbank
             Console.WriteLine("(r)emove");
             Console.WriteLine("(c)lear");
             Console.WriteLine("(a)dd");
-            var instance = new stepTable();
+            var instance = new ingredientTable();
             var selection = Console.ReadLine();
             switch (selection)
             {
                 case "e":
                 case "edit":
-                    
+                    instance.edit(dishID, sqlConnection);
                     break;
                 case "r":
                 case "remove":
-                    
+                    instance.remove(dishID, sqlConnection);
                     break;
                 case "c":
                 case "clear":
-                    
+                    var clear = prepared_statement.getStatement("clearDishIngredient");
+                    clear.Parameters[0].Value = dishID;
+                    clear.ExecuteNonQuery();
                     break;
                 case "a":
                 case "add":
-                    
+                    instance.add(dishID, sqlConnection);
                     break;
                 default:
                     Console.WriteLine("Unrecognized Command.");

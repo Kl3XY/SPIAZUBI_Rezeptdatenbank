@@ -15,8 +15,6 @@ namespace Datenbank
         {
             while (!Program.isClosingConnection)
             {
-
-
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.SetCursorPosition(0, Console.CursorTop);
                 Console.WriteLine();
@@ -42,7 +40,7 @@ namespace Datenbank
             }
         }
 
-        public static DataSet queryDraw(string query, SqlConnection connection, SqlCommand cmd = null)
+        public static DataSet queryDraw(string query, SqlConnection connection, SqlCommand cmd = null, bool onlyTables = false)
         {
             using (SqlCommand cmd2 = new SqlCommand(query, connection))
             {
@@ -51,6 +49,7 @@ namespace Datenbank
                 SqlDataAdapter adapter = new SqlDataAdapter(useCMD);
                 DataSet DataSet = new DataSet();
                 adapter.Fill(DataSet);
+                if (onlyTables) { return DataSet; }
                 foreach(DataTable dt in DataSet.Tables)
                 {
                     var resultTable = new ConsoleTable();

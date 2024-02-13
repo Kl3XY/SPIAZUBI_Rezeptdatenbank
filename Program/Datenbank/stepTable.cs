@@ -10,7 +10,7 @@ namespace Datenbank
 {
     internal class stepTable
     {
-        public void editStep(int dishID, SqlConnection sqlConnection)
+        public void edit(int dishID, SqlConnection sqlConnection)
         {
             var stopped = false;
             while (!stopped)
@@ -21,8 +21,13 @@ namespace Datenbank
 
                 query.queryDraw("", sqlConnection, showSteps);
 
+                var qr = query.queryDraw("select * from step", sqlConnection, null, true);
 
+                Program.version = Convert.ToInt32(qr.Tables[0].Rows[0]["ver"].ToString());
+
+                Console.WriteLine("Running on Version: {0}", Program.version);
                 Console.WriteLine("Type in the step you want to edit! type c to exit");
+               
                 var step = Console.ReadLine();
 
                 if (step == "c")
@@ -36,16 +41,19 @@ namespace Datenbank
                 Console.WriteLine("Enter a new Description");
                 var description = Console.ReadLine();
 
+
                 var editSteps = prepared_statement.getStatement("editStep");
                 editSteps.Parameters[0].Value = dishID;
                 editSteps.Parameters[1].Value = Convert.ToInt32(step);
                 editSteps.Parameters[2].Value = description;
+                editSteps.Parameters[3].Value = Program.version;
                 editSteps.ExecuteNonQuery();
-                Console.Clear();                
+                Console.Clear();
+                             
             }
         }
 
-        public void addStep(int dishID, SqlConnection sqlConnection)
+        public void add(int dishID, SqlConnection sqlConnection)
         {
             var stopped = false;
             while (!stopped)
@@ -74,7 +82,7 @@ namespace Datenbank
             }
         }
 
-        public void removeStep(int dishID, SqlConnection sqlConnection)
+        public void remove(int dishID, SqlConnection sqlConnection)
         {
             var stopped = false;
             while (!stopped)
@@ -103,7 +111,7 @@ namespace Datenbank
             }
         }
 
-        public void clearStep(int dishID, SqlConnection sqlConnection)
+        public void clear(int dishID, SqlConnection sqlConnection)
         {
 
                 Console.Clear();
