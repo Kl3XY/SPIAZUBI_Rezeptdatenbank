@@ -82,6 +82,27 @@ insert into recipe values
 (1,		5,		2,		7),
 (1,		6,		2,		7),
 (1,		7,		1,		7);
+
+alter table recipe
+add
+	ver int not null default 1;
+
+alter table unit
+add
+	ver int not null default 1;
+
+alter table step
+add
+	ver int not null default 1;
+
+alter table ingredient
+add
+	ver int not null default 1;
+
+alter table dish
+add
+	ver int not null default 1;
+
 GO
 --______________________________________________________________________________________________________________________________________________________________________________________________________________________
 --PROCEDURES
@@ -99,17 +120,26 @@ as
 	insert into unit(unit_name) values
 	(@name);
 go
-create procedure edit_units @oldname varchar(20), @newname varchar(20)
+create procedure edit_units @oldname varchar(20), @newname varchar(20), @version int
 as
-	update unit
-	set unit_name = @newname
-	where unit_name = @oldname
+	if (select ver from unit where ver = @version) IS NOT NULL
+		begin
+			if (select ingredient_name from ingredient where ingredient_name = @newname) IS NULL 
+			BEGIN
+				update unit
+				set unit_name = @newname, ver += 1
+				where unit_name = @oldname
+			END
+		end
+	else
+		begin
+			RAISERROR(51000, -1, -1);
+		end
 go
 create procedure delete_units @name varchar(20)
 as
 	delete from unit where unit_name = @name
 go
-
 
 
 create procedure show_ingredient @id int = -1
@@ -124,14 +154,21 @@ as
 	insert into ingredient(ingredient_name) values
 	(@name);
 go
-create procedure edit_ingredient @id int, @newname varchar(64)
+create procedure edit_ingredient @id int, @newname varchar(64), @version int
 as
-	if (select ingredient_name from ingredient where ingredient_name = @newname) IS NULL 
-	BEGIN
-		update ingredient
-		set ingredient_name = @newname
-		where Ingredient_ID = @id
-	END
+	if (select ver from ingredient where ver = @version) IS NOT NULL
+		begin
+			if (select ingredient_name from ingredient where ingredient_name = @newname) IS NULL 
+			BEGIN
+				update ingredient
+				set ingredient_name = @newname, ver += 1
+				where Ingredient_ID = @id
+			END
+		end
+	else
+		begin
+			RAISERROR(51000, -1, -1);
+		end
 go
 create procedure search_ingredient @name int
 as
@@ -164,7 +201,7 @@ as
 	else
 		begin
 			print 'bingo'
-			insert recipe values
+			insert recipe(Dish_ID, Ingredient_ID, ingredient_amount, Unit_ID) values
 			(@Dish_ID, @Ingredient_ID, @amount, @unitID);
 		end
 go
@@ -187,7 +224,7 @@ as
 go
 create procedure show_dish_ingredients @id int
 as
-	select displayIngredient.Ingredient_ID, displayIngredient.ingredient_name, CAST(ingredient_amount as varchar) + displayUnit.unit_name
+	select displayIngredient.Ingredient_ID, displayIngredient.ingredient_name, CAST(ingredient_amount as varchar) + displayUnit.unit_name as amount, recipe.ver
 	from recipe
 		inner join ingredient as displayIngredient on recipe.Ingredient_ID = displayIngredient.Ingredient_ID
 		inner join unit as displayUnit on recipe.Unit_ID = displayUnit.Unit_ID
@@ -195,6 +232,7 @@ as
 	where @id = recipe.Dish_ID
 
 go
+
 create procedure show_entire_dish_info @id int
 as
 	declare @thisID int = @id;
@@ -207,11 +245,19 @@ as
 	insert into dish(dish_name, dish_description) values
 	(@name, @description);
 go
-create procedure edit_dish @id int, @name varchar(30), @description varchar(8000)
+create procedure edit_dish @id int, @name varchar(30), @description varchar(8000), @version int
 as
-	update dish
-	set dish_name = @name, dish_description = @description
-	where Dish_ID = @id
+	if (select ver from dish where ver = @version) IS NOT NULL
+		begin
+			update dish
+			set dish_name = @name, dish_description = @description , ver += 1
+			where Dish_ID = @id 
+		end
+	else
+		begin
+			RAISERROR(51000, -1, -1);
+		end
+	
 go
 create procedure delete_dish @id int
 as
@@ -242,12 +288,21 @@ create procedure show_step @Dish_ID int
 as
 	select step_number as 'Step', step_description from step where @Dish_ID = Dish_ID;
 go
-create procedure edit_step @Dish_ID int, @stepNumber int, @description varchar(8000)
+create procedure edit_step @Dish_ID int, @stepNumber int, @description varchar(8000), @version int
 as
-	update step
-	set step_description = @description
-	where @Dish_ID = Dish_ID and @stepNumber = step_number;
+	if (select ver from step where ver = @version) IS NOT NULL
+		begin
+			update step 
+			set step_description = @description, ver = ver + 1
+			where @Dish_ID = Dish_ID and @stepNumber = step_number;
+		end
+	else
+		begin
+			RAISERROR(51000, -1, -1);
+		end
 go
+
+
 create procedure clear_step @Dish_ID int
 as
 	delete from step where Dish_ID = @Dish_ID;
@@ -256,7 +311,6 @@ create procedure delete_step @Dish_ID int, @Stepnmb int
 as
 	 
 	delete from step where Dish_ID = @Dish_ID and @Stepnmb = step_number;
-
 	update step set step_number -= 1 where step_number > @Stepnmb and @Dish_ID = Dish_ID;
 GO
 
@@ -268,16 +322,23 @@ create procedure delete_dish_ingredient @Dish_ID int, @Ingredient_ID int
 as
 	delete from recipe where Dish_ID = @Dish_ID and Ingredient_ID = @Dish_ID;
 go
-create procedure edit_dish_ingredients @ownDish_ID int, @ownIngredient_ID int, @newIngID int, @newMeasurement int, @newUnit int
+create procedure edit_dish_ingredients @ownDish_ID int, @ownIngredient_ID int, @newIngID int, @newMeasurement int, @newUnit int, @version int
 as
 	IF (select Ingredient_ID from recipe where Ingredient_ID = @newIngID and Dish_ID = @ownDish_ID) IS NULL
 		begin
-			update recipe
-			set
-			Ingredient_ID = @newIngID,
-			ingredient_amount = @newMeasurement,
-			Unit_ID = @newUnit
-			where Dish_ID = @ownDish_ID and Ingredient_ID = @ownIngredient_ID;
+			if (select ver from recipe where Ingredient_ID = @ownIngredient_ID and Dish_ID = @ownDish_ID and ver = @version) IS NOT NULL
+				begin
+					update recipe 
+					set
+					Ingredient_ID = @newIngID,
+					ingredient_amount = @newMeasurement,
+					Unit_ID = @newUnit, ver += 1
+					where Dish_ID = @ownDish_ID and Ingredient_ID = @ownIngredient_ID;
+				end
+			else
+				begin
+					RAISERROR(51000, -1, -1);
+				end
 		end
 	else
 		begin
@@ -289,13 +350,23 @@ GO
 --_______________________________________________________________________________________________________________________________________________________________________________________________________________
 --Prepare
 --____________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+/*
+insert into ingredient(ingredient_name) select ingredient_name from ingredient;
+insert into ingredient(ingredient_name) select ingredient_name from ingredient;
+insert into ingredient(ingredient_name) select ingredient_name from ingredient;
+insert into ingredient(ingredient_name) select ingredient_name from ingredient;
+insert into ingredient(ingredient_name) select ingredient_name from ingredient;
+insert into ingredient(ingredient_name) select ingredient_name from ingredient;
+insert into ingredient(ingredient_name) select ingredient_name from ingredient;
+insert into ingredient(ingredient_name) select ingredient_name from ingredient;
+insert into ingredient(ingredient_name) select ingredient_name from ingredient;
 
-insert into ingredient(ingredient_name) select ingredient_name from ingredient;
-insert into ingredient(ingredient_name) select ingredient_name from ingredient;
-insert into ingredient(ingredient_name) select ingredient_name from ingredient;
-insert into ingredient(ingredient_name) select ingredient_name from ingredient;
-insert into ingredient(ingredient_name) select ingredient_name from ingredient;
-insert into ingredient(ingredient_name) select ingredient_name from ingredient;
-insert into ingredient(ingredient_name) select ingredient_name from ingredient;
-insert into ingredient(ingredient_name) select ingredient_name from ingredient;
-insert into ingredient(ingredient_name) select ingredient_name from ingredient;
+*/
+
+select * from recipe
+select * from unit
+select * from step
+select * from ingredient
+select * from dish
+
+

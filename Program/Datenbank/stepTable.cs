@@ -23,20 +23,28 @@ namespace Datenbank
 
                 var qr = query.queryDraw("select * from step", sqlConnection, null, true);
 
-                Program.version = Convert.ToInt32(qr.Tables[0].Rows[0]["ver"].ToString());
-
-                Console.WriteLine("Running on Version: {0}", Program.version);
                 Console.WriteLine("Type in the step you want to edit! type c to exit");
                
                 var step = Console.ReadLine();
 
                 if (step == "c")
                 {
-
                     Console.Clear();
                     stopped = true;
                     return;
                 }
+
+                Program.version = -1;
+                foreach (DataRow row in qr.Tables[0].Rows)
+                {
+                    if (row["Dish_ID"].ToString() == step)
+                    {
+                        Program.version = Convert.ToInt32(row["ver"].ToString());
+                        Console.WriteLine("found");
+                        break;
+                    }
+                }
+                if (Program.version == -1) { throw new Exception("Table Entry not found"); }
 
                 Console.WriteLine("Enter a new Description");
                 var description = Console.ReadLine();

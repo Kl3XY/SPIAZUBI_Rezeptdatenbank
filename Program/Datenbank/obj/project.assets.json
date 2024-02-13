@@ -2538,11 +2538,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Martinga\\source\\repos\\Datenbank\\Datenbank\\Datenbank.csproj",
+      "projectUniqueName": "C:\\Users\\Martinga\\Documents\\SQL Server Management Studio\\SPIAZUBI_Rezeptdatenbank\\Program\\Datenbank\\Datenbank.csproj",
       "projectName": "Datenbank",
-      "projectPath": "C:\\Users\\Martinga\\source\\repos\\Datenbank\\Datenbank\\Datenbank.csproj",
+      "projectPath": "C:\\Users\\Martinga\\Documents\\SQL Server Management Studio\\SPIAZUBI_Rezeptdatenbank\\Program\\Datenbank\\Datenbank.csproj",
       "packagesPath": "C:\\Users\\Martinga\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Martinga\\source\\repos\\Datenbank\\Datenbank\\obj\\",
+      "outputPath": "C:\\Users\\Martinga\\Documents\\SQL Server Management Studio\\SPIAZUBI_Rezeptdatenbank\\Program\\Datenbank\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

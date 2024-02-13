@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,10 +28,18 @@ namespace Datenbank
                     var editIngredient = Console.ReadLine();
 
                     var qr = query.queryDraw("select * from ingredient", sqlConnection, null, true);
-
-                    Program.version = Convert.ToInt32(qr.Tables[0].Rows[0]["ver"].ToString());
-
-                    Console.WriteLine("Running on Version: {0}", Program.version);
+ 
+                    Program.version = -1;
+                    foreach (DataRow row in qr.Tables[0].Rows)
+                    {
+                        if (row["Ingredient_ID"].ToString() == editIngredient)
+                        {
+                            Program.version = Convert.ToInt32(row["ver"].ToString());
+                            Console.WriteLine("found");
+                            break;
+                        }
+                    }
+                    if (Program.version == -1) { throw new Exception("Table Entry not found"); }
 
                     Console.WriteLine("Now the new name for it!");
                     var newIngredientName = Console.ReadLine();

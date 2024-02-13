@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,12 +28,24 @@ namespace Datenbank
 
                     var qr = query.queryDraw("select * from step", sqlConnection, null, true);
 
-                    Program.version = Convert.ToInt32(qr.Tables[0].Rows[0]["ver"].ToString());
-
-                    Console.WriteLine("Running on Version: {0}", Program.version);
+                   
 
                     Console.WriteLine("Enter the id of the dish you want to edit");
                     var dish_ID = Convert.ToInt32(Console.ReadLine());
+
+                    Program.version = -1;
+                    foreach (DataRow row in qr.Tables[0].Rows)
+                    {
+                        if (row["Dish_ID"].ToString() == dish_ID.ToString())
+                        {
+                            Program.version = Convert.ToInt32(row["ver"].ToString());
+                            Console.WriteLine("found");
+                            break;
+                        }
+                    }
+                    if (Program.version == -1) { throw new Exception("Table Entry not found"); }
+
+
                     cmd.Parameters[0].Value = dish_ID;
                     Console.WriteLine("Enter the new name!");
                     var newDishName = Console.ReadLine();

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,19 +69,16 @@ namespace Datenbank
                 var showSteps = prepared_statement.getStatement("showDishIngredients");
                 showSteps.Parameters[0].Value = dishID;
 
-                query.queryDraw("", sqlConnection, showSteps);
+                var qr = query.queryDraw("", sqlConnection, showSteps);
 
                 Console.WriteLine("All Ingredients:");
 
                 query.queryDraw("select * from ingredient", sqlConnection);
 
-                var qr = query.queryDraw("select * from ingredient", sqlConnection, null, true);
-
-                Program.version = Convert.ToInt32(qr.Tables[0].Rows[0]["ver"].ToString());
-
-                Console.WriteLine("Running on Version: {0}", Program.version);
                 Console.WriteLine("Enter the ID of the Ingredient you want to edit!\n Type a c and enter to exit!");
                 var description = Console.ReadLine();
+
+
 
                 if (description == "c")
                 {
@@ -88,6 +86,19 @@ namespace Datenbank
                     stopped = true;
                     return;
                 }
+
+                Program.version = -1;
+                foreach (DataRow row in qr.Tables[0].Rows)
+                {
+                    if (row["Ingredient_ID"].ToString() == description)
+                    {
+                        Program.version = Convert.ToInt32(row["ver"].ToString());
+                        Console.WriteLine("found");
+                        break;
+                    }
+                }
+                if (Program.version == -1) { throw new Exception("Table Entry not found"); }
+
                 var initSearch = prepared_statement.getStatement("searchIngredient");
                 initSearch.Parameters[0].Value = Convert.ToInt32(description);
                 var ingredientSearch = query.queryDraw("", sqlConnection, initSearch, true);

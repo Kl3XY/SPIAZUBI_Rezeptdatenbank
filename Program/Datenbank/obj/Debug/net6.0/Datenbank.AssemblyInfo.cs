@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Datenbank")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ba48a15080bc2eeaa586debd950a0093dc989226")]
 [assembly: System.Reflection.AssemblyProductAttribute("Datenbank")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Datenbank")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
