@@ -4,16 +4,10 @@ This is a repository for the Recipe Database that i got as an assignment for my 
 
 ## Installation instructions
 ### 1. Prerequisites
-1. SQL SERVER MANAGEMENT STUDIO (Get it from [here]([https://pages.github.com/](https://learn.microsoft.com/de-de/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)https://learn.microsoft.com/de-de/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16))
+1. SQL SERVER MANAGEMENT STUDIO (Get it from [here](https://pages.github.com/](https://learn.microsoft.com/de-de/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16))
 2. SQL Server Express LocalDB (Get it from [here](https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/sql-server-express-localdb?view=sql-server-ver16))
-3. Visual Studio and all of it's requirements (Get it from [here](https://visualstudio.microsoft.com/de/downloads/))
 
-### Clone this repo.
-1. On your PC, go to where you want the repo to be cloned.
-2. Open Git Bash and type the following
-3. git clone https://github.com/Kl3XY/SPIAZUBI_Rezeptdatenbank
-
-### 3. SQL Server.
+### 2. SQL Server.
 Start SQL Server Management Studio (SSMS for short.) and connect to the following adress: (localDB)\MSSQLLocaldb and set Authentication to "Windows Authentication". 
 Once everything is set up. Click Connect.
 
@@ -26,10 +20,10 @@ Once the SSMS is connected, press Ctrl+O in order to open the query file in the 
 Once the query is loaded, Press F5 to execute it.
 With the execution of the script, the database is complete and filled with placeholder information.
 
-### 4. Program.
-Inside the Program is the Codebase for the Database Program. You are free to change it and re-release it non-commercially.
-
-Now open the solution via Visual Studio and press F5. If everything is correctly done, the Program should connect and you should be able to use it.
+### 3. Download the newest Release
+1. Download the newest version of the Program.
+2. And execute the .exe file under .net6.0
+3. If everything is set up correctly, the program should display it's main menu.
 
 ## Apprenticeship related stuff
 ![grafik](https://github.com/Kl3XY/SPIAZUBI_Rezeptdatenbank/assets/147717328/689150bd-bfc6-47ab-9aab-c9b621ec873c)
