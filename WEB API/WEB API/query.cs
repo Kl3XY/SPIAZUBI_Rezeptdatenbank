@@ -11,51 +11,46 @@ namespace Datenbank
 {
     internal static class query
     {
-        public static List<Recipe> recipeGet(SqlConnection connection)
+        public static DataSet recipeGet(string query, SqlConnection connection, SqlCommand cmd = null)
+        {
+            if (cmd != null)
+            {
+                query = cmd.CommandText;
+            }
+            using (SqlCommand cmdRecipe = new SqlCommand(query, connection))
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter(cmdRecipe);
+                DataSet ds = new DataSet();
+                adapter.Fill(ds);
+                return ds;
+            }
+        }
+        public static List<Recipe> postDB (SqlConnection connection)
         {
             var list = new List<Recipe>();
 
-            using (SqlCommand cmdRecipe = new SqlCommand("select Dish_ID, dish_name, dish_description from dish", connection))
-            {
-                SqlDataAdapter adapter = new SqlDataAdapter(cmdRecipe);
-                DataTable DataSet = new DataTable();
-                adapter.Fill(DataSet);
+            DataSet DataSet = recipeGet("select Dish_ID, dish_name, dish_description from, dish", connection):
+            foreach (DataRow row in DataSet.Rows) {
 
-                foreach (DataRow row in DataSet.Rows) {
+                var baseRecipe = new Recipe();
 
-                    var baseRecipe = new Recipe();
+                baseRecipe.recipeName = row["dish_name"].ToString();
+                baseRecipe.recipeDescription = row["dish_description"].ToString();
 
-                    baseRecipe.recipeName = row["dish_name"].ToString();
-                    baseRecipe.recipeDescription = row["dish_description"].ToString();
-                    
-                    using (SqlCommand getIngredient = new SqlCommand($"exec show_dish_ingredients @id = {row["Dish_ID"]}", connection))
-                    {
-                        SqlDataAdapter IngredientAdapter = new SqlDataAdapter(getIngredient);
-                        DataTable IngredientDataSet = new DataTable();
-                        IngredientAdapter.Fill(IngredientDataSet);
+                var IngredientDataSet = recipeGet($"exec show_dish_ingredients @id = {row["Dish_ID"]}", connection);
 
-                        foreach (DataRow ingredients in IngredientDataSet.Rows)
-                        {
-                            baseRecipe.ingredients.Add(new Ingredient(ingredients["ingredient_name"].ToString(), ingredients["amount"].ToString()));
-                        }
-                    }
-
-                    using (SqlCommand getSteps = new SqlCommand($"exec show_step @Dish_ID = {row["Dish_ID"]}", connection))
-                    {
-                        SqlDataAdapter StepsAdapter = new SqlDataAdapter(getSteps);
-                        DataTable StepsDataSet = new DataTable();
-                        StepsAdapter.Fill(StepsDataSet);
-
-                        foreach (DataRow step in StepsDataSet.Rows)
-                        {
-                            baseRecipe.steps.Add(new steps(Convert.ToInt32(step["Step"].ToString()), step["step_description"].ToString()));
-                        }
-                    }
-                    list.Add(baseRecipe);
+                foreach (DataRow ingredients in IngredientDataSet.Rows)
+                {
+                    baseRecipe.ingredients.Add(new Ingredient(ingredients["ingredient_name"].ToString(), ingredients["amount"].ToString()));
                 }
 
+                var StepsDataSet = recipeGet($"exec show_step @Dish_ID = {row["Dish_ID"]}", connection);
+                foreach (DataRow step in StepsDataSet.Rows)
+                {
+                    baseRecipe.steps.Add(new steps(Convert.ToInt32(step["Step"].ToString()), step["step_description"].ToString()));
+                }
+                list.Add(baseRecipe);
             }
-
             return list;
         }
     }

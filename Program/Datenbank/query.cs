@@ -39,18 +39,25 @@ namespace Datenbank
 
             }
         }
-
+        public static DataSet recipeGet(string query, SqlConnection connection, SqlCommand cmd = null)
+        {
+            if (cmd != null)
+            {
+                query = cmd.CommandText;
+            }
+            using (SqlCommand cmdRecipe = new SqlCommand(query, connection))
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter(cmdRecipe);
+                DataSet ds = new DataSet();
+                adapter.Fill(ds);
+                return ds;
+            }
+        }
         public static DataSet queryDraw(string query, SqlConnection connection, SqlCommand cmd = null, bool onlyTables = false)
         {
-            using (SqlCommand cmd2 = new SqlCommand(query, connection))
-            {
-                var useCMD = cmd2;
-                if (cmd != null) { useCMD = cmd; }
-                SqlDataAdapter adapter = new SqlDataAdapter(useCMD);
-                DataSet DataSet = new DataSet();
-                adapter.Fill(DataSet);
-                if (onlyTables) { return DataSet; }
-                foreach(DataTable dt in DataSet.Tables)
+                var Dt = recipeGet(query, connection, cmd);
+                if (onlyTables) { return Dt; }
+                foreach(DataTable dt in Dt.Tables)
                 {
                     var resultTable = new ConsoleTable();
                     resultTable.Options.EnableCount = false;
@@ -83,7 +90,6 @@ namespace Datenbank
                     Console.WriteLine();
                 }
                 return DataSet;
-            }
         }
     }
 }
