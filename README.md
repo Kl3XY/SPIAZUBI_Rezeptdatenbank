@@ -23,7 +23,8 @@ With the execution of the script, the database is complete and filled with place
 ### 3. Download the newest Release
 1. Download the newest version of the Program.
 2. And execute the .exe file under .net6.0
-3. If everything is set up correctly, the program should display it's main menu.
+2.5. (Optional, you can enter your own connection string. Or just press d for the most safe one)
+4. If everything is set up correctly, the program should display it's main menu.
 
 ## Apprenticeship related stuff
 ![grafik](https://github.com/Kl3XY/SPIAZUBI_Rezeptdatenbank/assets/147717328/689150bd-bfc6-47ab-9aab-c9b621ec873c)
