@@ -6,7 +6,8 @@ WHERE database_id  = db_id('recipes')
 EXEC(@kill);
 GO
 
-drop database recipes
+if (db_id('recipes') is not null)
+	drop database recipes
 
 go
 
@@ -15,6 +16,8 @@ create database recipes
 go
 
 use recipes;
+
+go
 
 create table dish (
 	Dish_ID int identity(1, 1) primary key,
@@ -350,23 +353,3 @@ GO
 --_______________________________________________________________________________________________________________________________________________________________________________________________________________
 --Prepare
 --____________________________________________________________________________________________________________________________________________________________________________________________________________________________________
-/*
-insert into ingredient(ingredient_name) select ingredient_name from ingredient;
-insert into ingredient(ingredient_name) select ingredient_name from ingredient;
-insert into ingredient(ingredient_name) select ingredient_name from ingredient;
-insert into ingredient(ingredient_name) select ingredient_name from ingredient;
-insert into ingredient(ingredient_name) select ingredient_name from ingredient;
-insert into ingredient(ingredient_name) select ingredient_name from ingredient;
-insert into ingredient(ingredient_name) select ingredient_name from ingredient;
-insert into ingredient(ingredient_name) select ingredient_name from ingredient;
-insert into ingredient(ingredient_name) select ingredient_name from ingredient;
-
-*/
-
-select * from recipe
-select * from unit
-select * from step
-select * from ingredient
-select * from dish
-
-

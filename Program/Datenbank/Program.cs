@@ -25,13 +25,23 @@ internal class Program
             {
                 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
 
-                builder.ConnectionString = "Server=(localDB)\\MSSQLLocaldb;Database=recipes;Integrated Security=True;TrustServerCertificate=true";
+                Console.WriteLine("Enter the connection string (enter a d for the default one)");
+                var server = Console.ReadLine();
+
+                if (server == "d")
+                {
+                    builder.ConnectionString = $"Server=(localDB)\\MSSQLLocaldb;Database=recipes;Integrated Security=True;TrustServerCertificate=true";
+                } else
+                {
+                    builder.ConnectionString = server;
+                }
 
                 using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
                 {
                     Console.WriteLine("Connecting...");
 
                     connection.Open();
+
                     Console.Clear();
 
                     Console.WriteLine("Enter what you wanna do:");
