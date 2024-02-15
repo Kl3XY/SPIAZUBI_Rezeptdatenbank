@@ -1,4 +1,4 @@
-![grafik](https://github.com/Kl3XY/SPIAZUBI_Rezeptdatenbank/assets/147717328/2628486b-7e3b-4f86-8dd5-037695e8c6ee)# Recipe Database
+# Recipe Database
 ## made with C# and SQL Server
 This is a repository for the Recipe Database that i got as an assignment for my apprenticeship. This readme includes the Entity Relationship Diagram aswell as the Installation instruction for the Program.
 
@@ -33,9 +33,10 @@ If you ever want to back up the current state of your database do the following:
 1. Open Sql Server Management Studio and connect to the database and unfold the tab "Databases"
 ![grafik](https://github.com/Kl3XY/SPIAZUBI_Rezeptdatenbank/assets/147717328/acb637db-6143-463c-90b9-bd6dee15188b)
 2. Right click on "recipes" and go to Tasks... > Back Up
+
 ![grafik](https://github.com/Kl3XY/SPIAZUBI_Rezeptdatenbank/assets/147717328/cd81a7cd-eeb1-4d3b-ac2d-3c0a6d748b74)
-3. Check through the options and click "OK"
-4. If everything went ok you should have a window popping up confirming the backup being successful.
+4. Check through the options and click "OK"
+5. If everything went ok you should have a window popping up confirming the backup being successful.
 
 ### Restoring the back up
 1. Open Sql Server Management Studio and connect to the database and unfold the tab "Databases"
