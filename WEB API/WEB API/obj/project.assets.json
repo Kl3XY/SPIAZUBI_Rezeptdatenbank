@@ -836,6 +836,19 @@
             "rid": "win"
           }
         }
+      },
+      "SQL Library/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Microsoft.Data.SqlClient": "5.1.5"
+        },
+        "compile": {
+          "bin/placeholder/SQL Library.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SQL Library.dll": {}
+        }
       }
     }
   },
@@ -2537,12 +2550,18 @@
         "system.windows.extensions.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "SQL Library/1.0.0": {
+      "type": "project",
+      "path": "../SQL Library/SQL Library.csproj",
+      "msbuildProject": "../SQL Library/SQL Library.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "Microsoft.Data.SqlClient >= 5.1.5",
       "Newtonsoft.Json >= 13.0.3",
+      "SQL Library >= 1.0.0",
       "Swashbuckle.AspNetCore >= 6.4.0"
     ]
   },
@@ -2553,11 +2572,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Martinga\\source\\repos\\WEB API\\WEB API\\WEB API.csproj",
+      "projectUniqueName": "C:\\Users\\Martinga\\Documents\\SQL Server Management Studio\\SPIAZUBI_Rezeptdatenbank\\WEB API\\WEB API\\WEB API.csproj",
       "projectName": "WEB API",
-      "projectPath": "C:\\Users\\Martinga\\source\\repos\\WEB API\\WEB API\\WEB API.csproj",
+      "projectPath": "C:\\Users\\Martinga\\Documents\\SQL Server Management Studio\\SPIAZUBI_Rezeptdatenbank\\WEB API\\WEB API\\WEB API.csproj",
       "packagesPath": "C:\\Users\\Martinga\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Martinga\\source\\repos\\WEB API\\WEB API\\obj\\",
+      "outputPath": "C:\\Users\\Martinga\\Documents\\SQL Server Management Studio\\SPIAZUBI_Rezeptdatenbank\\WEB API\\WEB API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -2577,7 +2596,11 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Martinga\\Documents\\SQL Server Management Studio\\SPIAZUBI_Rezeptdatenbank\\WEB API\\SQL Library\\SQL Library.csproj": {
+              "projectPath": "C:\\Users\\Martinga\\Documents\\SQL Server Management Studio\\SPIAZUBI_Rezeptdatenbank\\WEB API\\SQL Library\\SQL Library.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

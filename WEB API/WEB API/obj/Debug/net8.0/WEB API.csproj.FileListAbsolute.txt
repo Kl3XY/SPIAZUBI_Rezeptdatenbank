@@ -65,3 +65,14 @@ C:\Users\Martinga\source\repos\WEB API\WEB API\bin\Debug\net8.0\runtimes\win\lib
 C:\Users\Martinga\source\repos\WEB API\WEB API\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\Martinga\source\repos\WEB API\WEB API\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\Martinga\source\repos\WEB API\WEB API\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\WEB API\obj\Debug\net8.0\WEB API.csproj.AssemblyReference.cache
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\WEB API\obj\Debug\net8.0\WEB API.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\WEB API\obj\Debug\net8.0\WEB API.AssemblyInfoInputs.cache
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\WEB API\obj\Debug\net8.0\WEB API.AssemblyInfo.cs
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\WEB API\obj\Debug\net8.0\WEB API.csproj.CoreCompileInputs.cache
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\WEB API\obj\Debug\net8.0\WEB API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\WEB API\obj\Debug\net8.0\WEB API.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\WEB API\obj\Debug\net8.0\WEB API.sourcelink.json
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\WEB API\obj\Debug\net8.0\WEB API.dll
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\WEB API\obj\Debug\net8.0\refint\WEB API.dll
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\WEB API\obj\Debug\net8.0\WEB API.pdb

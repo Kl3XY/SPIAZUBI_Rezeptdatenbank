@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SQL;
 
 namespace Datenbank
 {
@@ -39,23 +40,9 @@ namespace Datenbank
 
             }
         }
-        public static DataSet recipeGet(string query, SqlConnection connection, SqlCommand cmd = null)
-        {
-            if (cmd != null)
-            {
-                query = cmd.CommandText;
-            }
-            using (SqlCommand cmdRecipe = new SqlCommand(query, connection))
-            {
-                SqlDataAdapter adapter = new SqlDataAdapter(cmdRecipe);
-                DataSet ds = new DataSet();
-                adapter.Fill(ds);
-                return ds;
-            }
-        }
         public static DataSet queryDraw(string query, SqlConnection connection, SqlCommand cmd = null, bool onlyTables = false)
         {
-                var Dt = recipeGet(query, connection, cmd);
+                var Dt = SQL.Commands.recipeGet(query, connection, cmd);
                 if (onlyTables) { return Dt; }
                 foreach(DataTable dt in Dt.Tables)
                 {
@@ -89,7 +76,7 @@ namespace Datenbank
                     resultTable.Write();
                     Console.WriteLine();
                 }
-                return DataSet;
+                return Dt;
         }
     }
 }

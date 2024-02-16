@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WEB_API;
+using SQL;
 
 namespace Datenbank
 {
@@ -29,7 +30,7 @@ namespace Datenbank
         {
             var list = new List<Recipe>();
 
-            DataSet DataSet = recipeGet("select Dish_ID, dish_name, dish_description from, dish", connection):
+            DataTable DataSet = SQL.Commands.recipeGet("select Dish_ID, dish_name, dish_description from, dish", connection).Tables[0];
             foreach (DataRow row in DataSet.Rows) {
 
                 var baseRecipe = new Recipe();
@@ -37,14 +38,14 @@ namespace Datenbank
                 baseRecipe.recipeName = row["dish_name"].ToString();
                 baseRecipe.recipeDescription = row["dish_description"].ToString();
 
-                var IngredientDataSet = recipeGet($"exec show_dish_ingredients @id = {row["Dish_ID"]}", connection);
+                var IngredientDataSet = SQL.Commands.recipeGet($"exec show_dish_ingredients @id = {row["Dish_ID"]}", connection).Tables[0];
 
                 foreach (DataRow ingredients in IngredientDataSet.Rows)
                 {
                     baseRecipe.ingredients.Add(new Ingredient(ingredients["ingredient_name"].ToString(), ingredients["amount"].ToString()));
                 }
 
-                var StepsDataSet = recipeGet($"exec show_step @Dish_ID = {row["Dish_ID"]}", connection);
+                var StepsDataSet = SQL.Commands.recipeGet($"exec show_step @Dish_ID = {row["Dish_ID"]}", connection).Tables[0];
                 foreach (DataRow step in StepsDataSet.Rows)
                 {
                     baseRecipe.steps.Add(new steps(Convert.ToInt32(step["Step"].ToString()), step["step_description"].ToString()));
