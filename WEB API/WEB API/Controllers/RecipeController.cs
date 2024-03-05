@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Text.Json;
+using SQL;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 using Newtonsoft.Json;
 namespace WEB_API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] 
     [ApiController]
     public class RecipeController : ControllerBase
     {
@@ -23,7 +24,7 @@ namespace WEB_API.Controllers
             {
                 connection.Open();
 
-                var dt = query.recipeGet(connection);
+                var dt = Commands.recipeGet("select * from recipe",connection);
 
                 var json = JsonConvert.SerializeObject(dt);
 

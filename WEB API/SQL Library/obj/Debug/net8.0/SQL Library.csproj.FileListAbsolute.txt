@@ -1,0 +1,13 @@
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\SQL Library\obj\Debug\net8.0\SQL Library.csproj.AssemblyReference.cache
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\SQL Library\obj\Debug\net8.0\SQL Library.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\SQL Library\obj\Debug\net8.0\SQL Library.AssemblyInfoInputs.cache
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\SQL Library\obj\Debug\net8.0\SQL Library.AssemblyInfo.cs
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\SQL Library\obj\Debug\net8.0\SQL Library.csproj.CoreCompileInputs.cache
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\SQL Library\obj\Debug\net8.0\SQL Library.sourcelink.json
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\SQL Library\bin\Debug\net8.0\SQL Library.deps.json
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\SQL Library\bin\Debug\net8.0\SQL Library.dll
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\SQL Library\bin\Debug\net8.0\SQL Library.pdb
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\SQL Library\obj\Debug\net8.0\SQL Library.dll
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\SQL Library\obj\Debug\net8.0\refint\SQL Library.dll
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\SQL Library\obj\Debug\net8.0\SQL Library.pdb
+C:\Users\Martinga\Documents\SQL Server Management Studio\SPIAZUBI_Rezeptdatenbank\WEB API\SQL Library\obj\Debug\net8.0\ref\SQL Library.dll

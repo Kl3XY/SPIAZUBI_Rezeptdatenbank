@@ -12,20 +12,6 @@ namespace Datenbank
 {
     internal static class query
     {
-        public static DataSet recipeGet(string query, SqlConnection connection, SqlCommand cmd = null)
-        {
-            if (cmd != null)
-            {
-                query = cmd.CommandText;
-            }
-            using (SqlCommand cmdRecipe = new SqlCommand(query, connection))
-            {
-                SqlDataAdapter adapter = new SqlDataAdapter(cmdRecipe);
-                DataSet ds = new DataSet();
-                adapter.Fill(ds);
-                return ds;
-            }
-        }
         public static List<Recipe> postDB (SqlConnection connection)
         {
             var list = new List<Recipe>();
