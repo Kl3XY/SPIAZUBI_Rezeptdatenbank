@@ -9,15 +9,24 @@ namespace SQL
         {
             if (cmd != null)
             {
-                query = cmd.CommandText;
-            }
-            using (SqlCommand cmdRecipe = new SqlCommand(query, connection))
+                using (cmd)
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds);
+                    return ds;
+                }
+            } else
             {
-                SqlDataAdapter adapter = new SqlDataAdapter(cmdRecipe);
-                DataSet ds = new DataSet();
-                adapter.Fill(ds);
-                return ds;
+                using (SqlCommand cmdRecipe = new SqlCommand(query, connection))
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmdRecipe);
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds);
+                    return ds;
+                }
             }
+            
         }
     }
 }

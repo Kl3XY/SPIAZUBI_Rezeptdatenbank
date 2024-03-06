@@ -164,7 +164,7 @@ as
 go
 create procedure edit_ingredient @id int, @newname varchar(64), @version int
 as
-	if (select ver from ingredient where ver = @version and Dish_ID = @id) IS NOT NULL
+	if (select ver from ingredient where ver = @version and Ingredient_ID = @id) IS NOT NULL
 		begin
 			if (select ingredient_name from ingredient where ingredient_name = @newname) IS NULL 
 			BEGIN

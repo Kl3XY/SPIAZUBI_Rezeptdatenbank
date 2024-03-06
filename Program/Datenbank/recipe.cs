@@ -15,7 +15,7 @@ namespace Datenbank
         {
             Console.Clear();
             prepared_statement.prepareStatements(sqlConnection);
-            
+            Console.WriteLine("Statements Prepared!");
 
             while (true)
             {
@@ -40,8 +40,8 @@ namespace Datenbank
                     default:
                         Console.Clear();
                         var infoDisplayAll = prepared_statement.getStatement("displayAllInfo");
-                        infoDisplayAll.Parameters[0].Value = dishID;
-
+                        infoDisplayAll.Parameters[0].Value = Convert.ToInt32(dishID);
+                        
                         query.queryDraw("", sqlConnection, infoDisplayAll);
                         var selectedTable = menu.drawPostSelectionMenu();
                         switch (selectedTable)

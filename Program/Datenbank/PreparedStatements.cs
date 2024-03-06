@@ -17,8 +17,8 @@ namespace Datenbank
 
             /* DISPLAY ALL INFO */
 
-            var dishSelectCommand = new SqlCommand("exec show_entire_dish_info @id = @dishSelect_ID", sqlConnection);
-            dishSelectCommand.Parameters.Add(new SqlParameter("@dishSelect_ID", System.Data.SqlDbType.Int));
+            var dishSelectCommand = new SqlCommand("exec show_entire_dish_info @id = @ds", sqlConnection);
+            dishSelectCommand.Parameters.Add(new SqlParameter("@ds", System.Data.SqlDbType.Int));
             dishSelectCommand.Parameters[0].Value = 0;
             dishSelectCommand.Prepare();
 
