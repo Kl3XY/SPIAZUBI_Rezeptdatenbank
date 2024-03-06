@@ -84,7 +84,12 @@ insert into recipe values
 (1,		4,		500,	4),
 (1,		5,		2,		7),
 (1,		6,		2,		7),
-(1,		7,		1,		7);
+(1,		7,		1,		7),
+(2,		7,		1,		7),
+(3,		7,		1,		7),
+(2,		5,		1,		7),
+(2,		6,		1,		7),
+(3,		4,		1,		7);
 
 alter table recipe
 add
@@ -159,10 +164,11 @@ as
 go
 create procedure edit_ingredient @id int, @newname varchar(64), @version int
 as
-	if (select ver from ingredient where ver = @version) IS NOT NULL
+	if (select ver from ingredient where ver = @version and Dish_ID = @id) IS NOT NULL
 		begin
 			if (select ingredient_name from ingredient where ingredient_name = @newname) IS NULL 
 			BEGIN
+				print 'test';
 				update ingredient
 				set ingredient_name = @newname, ver += 1
 				where Ingredient_ID = @id

@@ -14,7 +14,7 @@ namespace WEB_API.Controllers
     public class RecipeController : ControllerBase
     {
         // GET: api/<RecipeController>
-        [HttpGet("Get entire recipe")]
+        [HttpGet("Get all recipes")]
         public string Get()
         {
             var builder = new SqlConnectionStringBuilder();
@@ -34,23 +34,24 @@ namespace WEB_API.Controllers
             
         }
 
-
-        // POST api/<RecipeController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpGet("Get single recipe")]
+        public string Get(int id)
         {
-        }
+            var builder = new SqlConnectionStringBuilder();
+            builder.ConnectionString = "Server=(localDB)\\MSSQLLocaldb;Database=recipes;Integrated Security=True;TrustServerCertificate=true";
 
-        // PUT api/<RecipeController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            {
+                connection.Open();
 
-        // DELETE api/<RecipeController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+                var dt = Commands.recipeGet($"select * from recipe where Dish_ID = {id}", connection);
+
+                var json = JsonConvert.SerializeObject(dt);
+
+                return json;
+            }
+
+
         }
     }
 }

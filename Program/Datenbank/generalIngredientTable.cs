@@ -35,11 +35,12 @@ namespace Datenbank
                         if (row["Ingredient_ID"].ToString() == editIngredient)
                         {
                             Program.version = Convert.ToInt32(row["ver"].ToString());
-                            Console.WriteLine("found");
                             break;
                         }
                     }
                     if (Program.version == -1) { throw new Exception("Table Entry not found"); }
+
+                    var ver = Program.version;
 
                     Console.WriteLine("Now the new name for it!");
                     var newIngredientName = Console.ReadLine();
